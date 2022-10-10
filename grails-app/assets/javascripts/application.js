@@ -6,4 +6,7 @@
 // to create separate JavaScript files as needed.
 //
 //= require base
+//= require htmx
+//= require _hyperscript
+//= require app
 //= require_self
