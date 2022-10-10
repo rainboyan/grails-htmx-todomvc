@@ -245,5 +245,5 @@
 	};
 
 	redirect();
-	getFile('static/learn.json', Learn);
+	getFile('/static/learn.json', Learn);
 })();
