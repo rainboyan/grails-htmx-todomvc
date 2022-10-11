@@ -20,5 +20,8 @@
     </ul>
     <!-- Hidden if no completed items are left ↓ -->
     <button id="clear-button" class="clear-completed ${numberOfCompletedItems == 0 ? 'hidden' : ''}" 
-        hx-post='/todo/deleteCompleted' _="on itemCompletionToggled remove .hidden">Clear completed</button>
+            hx-post='/todo/deleteCompleted?filter=${filter}' 
+            hx-target="#todo-list"
+            hx-swap="innerHTML"
+            _="on itemCompletionToggled remove .hidden">Clear completed</button>
 </footer>

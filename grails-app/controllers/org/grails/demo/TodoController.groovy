@@ -65,10 +65,13 @@ class TodoController {
         itemsCompleted.each {
             todoItemService.delete(it.id)
         }
-        
-        response.setHeader("HX-Refresh", "true")
 
-        render ""
+        String filter = params.filter ?: 'all'
+        List<TodoItem> todoItems = getTodoItems(filter)
+        
+        response.setHeader("HX-Trigger", "itemDeleted")
+
+        render(contentType: 'text/html', template: "/todo/todoItem", model: [filter: filter, todoItems: todoItems])
     }
 
     def toggle(Long id) {
