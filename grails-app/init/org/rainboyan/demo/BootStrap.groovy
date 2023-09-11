@@ -1,4 +1,4 @@
-package org.grails.demo
+package org.rainboyan.demo
 
 import grails.gorm.transactions.Transactional
 

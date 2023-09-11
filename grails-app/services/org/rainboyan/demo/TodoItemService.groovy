@@ -1,4 +1,4 @@
-package org.grails.demo
+package org.rainboyan.demo
 
 import grails.gorm.services.Query
 import grails.gorm.services.Service
