@@ -30,7 +30,7 @@ class TodoController {
         String filter = params.filter ?: 'all'
         List<TodoItem> todoItems = getTodoItems(filter)
 
-        response.setHeader("HX-Trigger", "itemAdded")
+        response.htmx.trigger = 'itemAdded'
 
         render(contentType: 'text/html', template: "/todo/todoItem", model: [filter: filter, todoItems: todoItems])
     }
@@ -44,7 +44,7 @@ class TodoController {
         String filter = params.filter ?: 'all'
         List<TodoItem> todoItems = getTodoItems(filter)
 
-        response.setHeader("HX-Trigger", "itemUpdated")
+        response.htmx.trigger = 'itemUpdated'
 
         render(contentType: 'text/html', template: "/todo/todoItem", model: [filter: filter, todoItems: todoItems])
     }
@@ -55,7 +55,7 @@ class TodoController {
         String filter = params.filter ?: 'all'
         List<TodoItem> todoItems = getTodoItems(filter)
         
-        response.setHeader("HX-Trigger", "itemDeleted")
+        response.htmx.trigger = 'itemDeleted'
 
         render(contentType: 'text/html', template: "/todo/todoItem", model: [filter: filter, todoItems: todoItems])
     }
@@ -69,7 +69,7 @@ class TodoController {
         String filter = params.filter ?: 'all'
         List<TodoItem> todoItems = getTodoItems(filter)
         
-        response.setHeader("HX-Trigger", "itemDeleted")
+        response.htmx.trigger = 'itemDeleted'
 
         render(contentType: 'text/html', template: "/todo/todoItem", model: [filter: filter, todoItems: todoItems])
     }
@@ -83,7 +83,7 @@ class TodoController {
         String filter = params.filter ?: 'all'
         List<TodoItem> todoItems = getTodoItems(filter)
 
-        response.setHeader("HX-Trigger", "itemCompletionToggled")
+        response.htmx.trigger = 'itemCompletionToggled'
 
         render(contentType: 'text/html', template: "/todo/todoItem", model: [filter: filter, todoItems: todoItems])
     }
@@ -100,7 +100,7 @@ class TodoController {
 
         todoItems = getTodoItems(filter)
 
-        response.setHeader("HX-Trigger", "itemCompletionToggled")
+        response.htmx.trigger = 'itemCompletionToggled'
 
         render(contentType: 'text/html', template: "/todo/todoItem", model: [filter: filter, todoItems: todoItems])
     }
