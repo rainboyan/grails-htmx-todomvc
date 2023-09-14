@@ -1,5 +1,7 @@
 package org.rainboyan.demo
 
+import grails.converters.JSON
+
 class TodoController {
 
     def todoItemService
@@ -11,13 +13,36 @@ class TodoController {
         Long numberOfCompletedItems = totalNumberOfItems - numberOfActiveItems
         List<TodoItem> todoItems = getTodoItems(filter)
 
-        [filter: filter, todoItems: todoItems, totalNumberOfItems: totalNumberOfItems, numberOfActiveItems: numberOfActiveItems, numberOfCompletedItems: numberOfCompletedItems]
+        def model = [
+                filter: filter,
+                todoItems: todoItems,
+                totalNumberOfItems: totalNumberOfItems,
+                numberOfActiveItems: numberOfActiveItems,
+                numberOfCompletedItems: numberOfCompletedItems
+        ]
+
+        withFormat {
+            html {
+                model
+            }
+            json {
+                render model as JSON
+            }
+        }
     }
 
     def list() {
         List<TodoItem> todoItems = todoItemService.list()
+        def model = [todoItems: todoItems]
 
-        render(contentType: 'text/html', template: "/todo/todoItem", model: [todoItems: todoItems])
+        withFormat {
+            htmx {
+                render(contentType: 'text/html', template: "/todo/todoItem", model: model)
+            }
+            json {
+                render model as JSON
+            }
+        }
     }
 
     def create() {
@@ -29,10 +54,18 @@ class TodoController {
 
         String filter = params.filter ?: 'all'
         List<TodoItem> todoItems = getTodoItems(filter)
+        def model = [filter: filter, todoItems: todoItems]
 
-        response.htmx.trigger = 'itemAdded'
+        withFormat {
+            htmx {
+                response.htmx.trigger = 'itemAdded'
 
-        render(contentType: 'text/html', template: "/todo/todoItem", model: [filter: filter, todoItems: todoItems])
+                render(contentType: 'text/html', template: "/todo/todoItem", model: model)
+            }
+            json {
+                render model as JSON
+            }
+        }
     }
 
     def update(Long id) {
@@ -43,10 +76,18 @@ class TodoController {
 
         String filter = params.filter ?: 'all'
         List<TodoItem> todoItems = getTodoItems(filter)
+        def model = [filter: filter, todoItems: todoItems]
 
-        response.htmx.trigger = 'itemUpdated'
+        withFormat {
+            htmx {
+                response.htmx.trigger = 'itemUpdated'
 
-        render(contentType: 'text/html', template: "/todo/todoItem", model: [filter: filter, todoItems: todoItems])
+                render(contentType: 'text/html', template: "/todo/todoItem", model: model)
+            }
+            json {
+                render model as JSON
+            }
+        }
     }
 
     def delete(Long id) {
@@ -54,10 +95,18 @@ class TodoController {
 
         String filter = params.filter ?: 'all'
         List<TodoItem> todoItems = getTodoItems(filter)
-        
-        response.htmx.trigger = 'itemDeleted'
+        def model = [filter: filter, todoItems: todoItems]
 
-        render(contentType: 'text/html', template: "/todo/todoItem", model: [filter: filter, todoItems: todoItems])
+        withFormat {
+            htmx {
+                response.htmx.trigger = 'itemDeleted'
+
+                render(contentType: 'text/html', template: "/todo/todoItem", model: model)
+            }
+            json {
+                render model as JSON
+            }
+        }
     }
 
     def deleteCompleted() {
@@ -68,10 +117,18 @@ class TodoController {
 
         String filter = params.filter ?: 'all'
         List<TodoItem> todoItems = getTodoItems(filter)
-        
-        response.htmx.trigger = 'itemDeleted'
+        def model = [filter: filter, todoItems: todoItems]
 
-        render(contentType: 'text/html', template: "/todo/todoItem", model: [filter: filter, todoItems: todoItems])
+        withFormat {
+            htmx {
+                response.htmx.trigger = 'itemDeleted'
+
+                render(contentType: 'text/html', template: "/todo/todoItem", model: model)
+            }
+            json {
+                render model as JSON
+            }
+        }
     }
 
     def toggle(Long id) {
@@ -82,10 +139,18 @@ class TodoController {
 
         String filter = params.filter ?: 'all'
         List<TodoItem> todoItems = getTodoItems(filter)
+        def model = [filter: filter, todoItems: todoItems]
 
-        response.htmx.trigger = 'itemCompletionToggled'
+        withFormat {
+            htmx {
+                response.htmx.trigger = 'itemCompletionToggled'
 
-        render(contentType: 'text/html', template: "/todo/todoItem", model: [filter: filter, todoItems: todoItems])
+                render(contentType: 'text/html', template: "/todo/todoItem", model: model)
+            }
+            json {
+                render model as JSON
+            }
+        }
     }
 
     def toggleAll() {
@@ -99,10 +164,18 @@ class TodoController {
         }
 
         todoItems = getTodoItems(filter)
+        def model = [filter: filter, todoItems: todoItems]
 
-        response.htmx.trigger = 'itemCompletionToggled'
+        withFormat {
+            htmx {
+                response.htmx.trigger = 'itemCompletionToggled'
 
-        render(contentType: 'text/html', template: "/todo/todoItem", model: [filter: filter, todoItems: todoItems])
+                render(contentType: 'text/html', template: "/todo/todoItem", model: model)
+            }
+            json {
+                render model as JSON
+            }
+        }
     }
 
     def mainFooter() {
@@ -111,9 +184,21 @@ class TodoController {
         Long numberOfActiveItems = todoItemService.countByCompleted(false)
         Long numberOfCompletedItems = totalNumberOfItems - numberOfActiveItems
 
-        def model = [filter: filter, totalNumberOfItems: totalNumberOfItems, numberOfActiveItems: numberOfActiveItems, numberOfCompletedItems: numberOfCompletedItems]
+        def model = [
+                filter: filter,
+                totalNumberOfItems: totalNumberOfItems,
+                numberOfActiveItems: numberOfActiveItems,
+                numberOfCompletedItems: numberOfCompletedItems
+        ]
 
-        render(contentType: 'text/html', template: "/todo/mainFooter", model: model)
+        withFormat {
+            htmx {
+                render(contentType: 'text/html', template: "/todo/mainFooter", model: model)
+            }
+            json {
+                render model as JSON
+            }
+        }
     }
 
     private List<TodoItem> getTodoItems(String filter) {
